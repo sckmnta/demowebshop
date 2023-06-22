@@ -15,21 +15,8 @@ import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 
-public class DemoWebShopTests {
+public class DemoWebShopTests extends TestBase {
 
-    String login = "qa@qa.guru",
-            password = "qa@qa.guru1";
-
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.baseUrl = "https://demowebshop.tricentis.com";
-        baseURI = "https://demowebshop.tricentis.com";
-    }
-
-    @AfterAll
-    static void afterAll() {
-        Configuration.holdBrowserOpen = true;
-    }
 
     @Test
     void loginWithUiTest() {
