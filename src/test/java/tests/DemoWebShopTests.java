@@ -1,48 +1,52 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
+import tests.config.SecretConfig;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
-import static io.restassured.RestAssured.baseURI;
+
 import static io.restassured.RestAssured.given;
 
 public class DemoWebShopTests extends TestBase {
 
 
+
+
     @Test
     void loginWithUiTest() {
+
+        SecretConfig config = ConfigFactory.create(SecretConfig.class, System.getProperties());
 
         step("Open login page", () -> {
             open("/login");
         });
         step("Fill login form and press enter", () -> {
-            $("#Email").setValue(login);
-            $("#Password").setValue(password).pressEnter();
+            $("#Email").setValue(config.login());
+            $("#Password").setValue(config.password()).pressEnter();
         });
         step("Verify successful authorisation", () -> {
-            $(".account").shouldHave(text(login));
+            $(".account").shouldHave(text("qa@qa.guru"));
         });
     }
 
     @Test
     void loginWithApiTest() {
 
+        SecretConfig config = ConfigFactory.create(SecretConfig.class, System.getProperties());
+
         step("Get auth cookies by api and set them to browser", () -> {
             String authCookieKey = "NOPCOMMERCE.AUTH";
             String authCookieVal =
                     given()
                             .contentType("application/x-www-form-urlencoded")
-                            .formParam("Email", login)
-                            .formParam("Password", password)
+                            .formParam("Email", config.login())
+                            .formParam("Password", config.password())
                             .when()
                             .post("/login")
                             .then()
@@ -58,7 +62,7 @@ public class DemoWebShopTests extends TestBase {
             open("/");
         });
         step("Verify successful authorisation", () -> {
-            $(".account").shouldHave(text(login));
+            $(".account").shouldHave(text("qa@qa.guru"));
         });
     }
 }
