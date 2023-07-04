@@ -3,7 +3,7 @@ package tests;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
-import tests.config.SecretConfig;
+import tests.config.AuthConfig;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -21,7 +21,7 @@ public class DemoWebShopTests extends TestBase {
     @Test
     void loginWithUiTest() {
 
-        SecretConfig config = ConfigFactory.create(SecretConfig.class, System.getProperties());
+        AuthConfig config = ConfigFactory.create(AuthConfig.class, System.getProperties());
 
         step("Open login page", () -> {
             open("/login");
@@ -38,7 +38,7 @@ public class DemoWebShopTests extends TestBase {
     @Test
     void loginWithApiTest() {
 
-        SecretConfig config = ConfigFactory.create(SecretConfig.class, System.getProperties());
+        AuthConfig config = ConfigFactory.create(AuthConfig.class, System.getProperties());
 
         step("Get auth cookies by api and set them to browser", () -> {
             String authCookieKey = "NOPCOMMERCE.AUTH";
@@ -62,7 +62,7 @@ public class DemoWebShopTests extends TestBase {
             open("/");
         });
         step("Verify successful authorisation", () -> {
-            $(".account").shouldHave(text("qa@qa.guru"));
+            $(".account").shouldHave(text(config.login()));
         });
     }
 }

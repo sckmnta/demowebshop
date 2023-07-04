@@ -3,11 +3,11 @@ package tests.config;
 import org.aeonbits.owner.Config;
 
 @Config.Sources({
-        "file:/secret.properties",
-        "classpath:secret.properties"
+        "file:/auth.properties",
+        "classpath:auth.properties"
 })
 
-public interface SecretConfig extends Config {
+public interface AuthConfig extends Config {
     @Key("login")
     String login();
 
