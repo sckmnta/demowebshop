@@ -65,4 +65,5 @@ public class DemoWebShopTests extends TestBase {
             $(".account").shouldHave(text(config.login()));
         });
     }
+
 }
